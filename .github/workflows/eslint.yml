@@ -20,7 +20,8 @@ jobs:
 
       - name: Run ESLint
         id: eslint
-        run: npm run lint
+        run: |
+          npx eslint . --ext .js,.jsx,.ts,.tsx -f unix --output-file eslint-output.txt
 
       - name: Output ESLint Result
         if: failure()
@@ -33,13 +34,14 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const fs = require('fs');
-            const github = require('@actions/github');
+            const { context, getOctokit } = require('@actions/github');
             const lintOutput = fs.readFileSync('eslint-output.txt', 'utf8');
-            const issue_number = github.context.payload.pull_request.number;
+            const issue_number = context.payload.pull_request.number;
+            const octokit = getOctokit(process.env.GITHUB_TOKEN);
 
-            await github.getOctokit(process.env.GITHUB_TOKEN).rest.issues.createComment({
-              owner: github.context.repo.owner,
-              repo: github.context.repo.repo,
+            await octokit.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
               issue_number,
               body: `:warning: Linting issues found:\n\n\`\`\`text\n${lintOutput}\n\`\`\``
             });
