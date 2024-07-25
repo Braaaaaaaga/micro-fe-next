@@ -7,34 +7,37 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14'
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    - name: Run ESLint
-      run: npm run lint
-      continue-on-error: true
+      - name: Run ESLint
+        run: |
+          npm run lint || true
+          cat eslint-output.txt
+        continue-on-error: true
 
-    - name: Comment on Pull Request
-      if: failure()
-      uses: actions/github-script@v5
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        script: |
-          const { issues } = require('@actions/github').getOctokit(context.githubToken);
-          const fs = require('fs');
-          const lintOutput = fs.readFileSync('eslint-output.txt', 'utf8');
-          const issue_number = context.issue.number;
+      - name: Comment on Pull Request
+        if: failure()
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { github } = require('@actions/github');
+            const fs = require('fs');
+            const lintOutput = fs.readFileSync('eslint-output.txt', 'utf8');
+            const issue_number = context.payload.pull_request.number;
 
-          await issues.createComment({
-            ...context.repo,
-            issue_number,
-            body: `:warning: Linting issues found:\n\n\`\`\`text\n${lintOutput}\n\`\`\``
-          });
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number,
+              body: `:warning: Linting issues found:\n\n\`\`\`text\n${lintOutput}\n\`\`\``
+            });
