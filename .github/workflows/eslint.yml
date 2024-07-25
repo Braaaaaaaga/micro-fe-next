@@ -33,11 +33,11 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const fs = require('fs');
+            const { context } = require('@actions/github');
             const lintOutput = fs.readFileSync('eslint-output.txt', 'utf8');
-            const { context, github } = require('@actions/github');
             const issue_number = context.payload.pull_request.number;
 
-            await github.rest.issues.createComment({
+            await context.github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number,
