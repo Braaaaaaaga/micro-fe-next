@@ -25,25 +25,9 @@ jobs:
         run: |
           npx eslint . --ext .js,.jsx,.ts,.tsx -f unix > eslint-report.txt || true
 
-      - name: Upload ESLint Report
-        uses: actions/upload-artifact@v2
-        with:
-          name: eslint-report
-          path: eslint-report.txt
-
-  reviewdog:
-    name: Reviewdog Comment
-    runs-on: ubuntu-latest
-    needs: eslint
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Download ESLint Report
-        uses: actions/download-artifact@v2
-        with:
-          name: eslint-report
+      - name: Install Reviewdog
+        run: |
+          curl -sfL https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b /usr/local/bin/
 
       - name: Run Reviewdog
         run: |
