@@ -33,6 +33,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const fs = require('fs');
+            const context = require('@actions/github').context;
             const lintOutput = fs.readFileSync('eslint-output.txt', 'utf8');
             const issue_number = context.payload.pull_request.number;
 
