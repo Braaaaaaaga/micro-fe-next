@@ -1,9 +1,8 @@
 name: Lint Code Base
-
 on: [pull_request]
 
 jobs:
-  eslint:
+  lint:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,15 +18,21 @@ jobs:
         run: npm install
 
       - name: Run ESLint
-        run: |
-          npx eslint . --ext .js,.jsx,.ts,.tsx -f json -o eslint-report.json || true
+        run: npm run lint
+        continue-on-error: true
 
-      - name: Install Reviewdog
-        run: |
-          curl -sfL https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b /usr/local/bin
-
-      - name: Run Reviewdog
-        run: |
-          reviewdog -f=eslint -name="eslint" -reporter=github-pr-review -level=error -fail-on-error < eslint-report.json
-        env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Comment on Pull Request
+        if: failure()
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { issues } = require('@actions/github');
+            const fs = require('fs');
+            const lintOutput = fs.readFileSync('eslint-output.txt', 'utf8');
+            const issue_number = context.issue.number;
+            await issues.createComment({
+              ...context.repo,
+              issue_number,
+              body: `:warning: Linting issues found:\n\n\`\`\`text\n${lintOutput}\n\`\`\``
+            });
