@@ -1,8 +1,8 @@
 # Microfrontend Next.js Project 🚀
 
-![GitHub last commit](https://img.shields.io/github/last-commit/Braaaaaaaga/micro-fe-next) 
-![GitHub issues](https://img.shields.io/github/issues/Braaaaaaaga/micro-fe-next) 
-![GitHub stars](https://img.shields.io/github/stars/Braaaaaaaga/micro-fe-next) 
+![GitHub last commit](https://img.shields.io/github/last-commit/Braaaaaaaga/micro-fe-next)
+![GitHub issues](https://img.shields.io/github/issues/Braaaaaaaga/micro-fe-next)
+![GitHub stars](https://img.shields.io/github/stars/Braaaaaaaga/micro-fe-next)
 
 ## 🌟 Overview
 
@@ -46,6 +46,7 @@ This project is one of the four microfrontends that make up a microfrontend arch
 ├── tsconfig.json
 └── yarn.lock
 ```
+
 ## ⚙️ Setup and Installation
 
 1° Clone the repository:
@@ -86,8 +87,3 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ## 💬 Contact
 
 Braian Hudson Braga - [@Braaaaaaaga]- dev.braaaaaaaga@gmail.com || braian.hudson.braga@gmail.com
-
-
-
-
-
