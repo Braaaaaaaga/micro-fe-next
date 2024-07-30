@@ -1,10 +1,9 @@
 ---
 name: Template for New Functionality
 about: Description of the new functionality
-title: ''
+title: ""
 labels: enhancement
 assignees: Braaaaaaaga
-
 ---
 
 **Description:**
