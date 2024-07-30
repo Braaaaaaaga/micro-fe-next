@@ -1,16 +1,16 @@
 ---
 name: Template for Bug
 about: Problem description
-title: ''
+title: ""
 labels: bug
 assignees: Braaaaaaaga
-
 ---
 
 **Description:**
 Describe the problem clearly and concisely.
 
 **Steps to reproduce:**
+
 1. Go to '...'
 2. Click '...'
 3. Scroll down to '...'
