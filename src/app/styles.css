@@ -1,0 +1,26 @@
+/* styles.css */
+.heading-sec__main::after {
+  content: "";
+  position: absolute;
+  top: calc(100% + 1.5rem);
+  height: 5px;
+  width: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #7843e9;
+  border-radius: 5px;
+}
+
+.btn-custom:hover {
+  transform: translateY(-3px);
+}
+
+.skills {
+  padding: 1rem 2rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.6rem;
+  background-color: rgba(153, 153, 153, 0.2);
+  border-radius: 5px;
+  font-weight: 600;
+  color: #666;
+}
